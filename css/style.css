@@ -254,6 +254,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav-menu, .nav-menu * {
   margin: 0;
   padding: 0;
+    
   list-style: none;
 }
 
@@ -305,11 +306,15 @@ h1, h2, h3, h4, h5, h6 {
 .sf-arrows ul .sf-with-ul:after {
   content: "\f105";
 }
+/*Container*/
+.container{
+   
+}
 
 /* Nav Meu Container */
 #nav-menu-container {
   float: right;
-  margin: 0;
+  margin: 5;
 }
 
 @media (max-width: 768px) {
@@ -571,6 +576,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 #about .content ul li {
   padding-bottom: 10px;
 }
+/*Header*/
 
 /* Product Featuress Section
 --------------------------------*/
@@ -1224,4 +1230,8 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 #footer .footer-links a:hover {
   color: #1dc8cd;
+}
+.tdslogo{
+    width: 130px;
+    height: 40px;
 }
