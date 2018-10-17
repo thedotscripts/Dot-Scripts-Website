@@ -587,35 +587,64 @@ reliable.</p>
       Contact Section
     ============================-->
       <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-    if ($('#newContact').length > 0 ) {
-        contactScript('forcontact');
-    }
-});
-//firebase
-function contactScript(value) {
-  var a = {
-    apiKey: "AIzaSyDuv1-3U7UAbjeOBWMnG-ao4RwmQ-lwIEA",
-    authDomain: "tds-website-contact-form.firebaseapp.com",
-    databaseURL: "https://tds-website-contact-form.firebaseio.com",
-    projectId: "tds-website-contact-form",
-    storageBucket: "tds-website-contact-form.appspot.com",
-    messagingSenderId: "967047056107"
-  };
-  firebase.initializeApp(a);
-    var b = firebase.database().ref("messages");
-        $("#newContact").submit(function(a) { $(this), console.log("Submit to Firebase");
-        var c = $("#name").val(),
-            d = $("#email").val(),
-            c1 = $("#subject").val(),
-            d1 = $("#message").val(),
-            f = { name: c, email: d, subject: c1, message: d1};
-        return b.push(f).then(function(a) { 
-            $(".sucess").css("display", "block"), 
-            $(".sucess-none").css("display", "none") }), !1 })   
+<script>
+      var config = {
+  apiKey: "AIzaSyDuv1-3U7UAbjeOBWMnG-ao4RwmQ-lwIEA",
+  authDomain: "tds-website-contact-form.firebaseapp.com",
+  databaseURL: "tds-website-contact-form.firebaseapp.com",
+  projectId: "tds-website-contact-form",
+  storageBucket: "tds-website-contact-form.appspot.com",
+  messagingSenderId: "967047056107"
+};
+firebase.initializeApp(config);
+
+// Reference messages collection
+var messagesRef = firebase.database().ref('messages');
+
+// Listen for form submit
+document.getElementById('contactForm').addEventListener('submit', submitForm);
+
+// Submit form
+function submitForm(e){
+  e.preventDefault();
+
+  // Get values
+  var name = getInputVal('name');
+  var email = getInputVal('email');
+  var subject = getInputVal('subject');
+  var message = getInputVal('message');
+
+  // Save message
+  saveMessage(name, subject, email, message);
+
+  // Show alert
+  document.querySelector('.alert').style.display = 'block';
+
+  // Hide alert after 3 seconds
+  setTimeout(function(){
+    document.querySelector('.alert').style.display = 'none';
+  },3000);
+
+  // Clear form
+  document.getElementById('contactForm').reset();
 }
-</script> 
+
+// Function to get get form values
+function getInputVal(id){
+  return document.getElementById(id).value;
+}
+
+// Save message to firebase
+function saveMessage(name, subject, email, message){
+  var newMessageRef = messagesRef.push();
+  newMessageRef.set({
+    name: name,
+    subject: subject,
+    email:email,
+    message:message
+  });
+}
+      </script>
       <section id="contact">
       <div class="container">
         <div class="row wow fadeInUp">
@@ -659,7 +688,7 @@ function contactScript(value) {
             <div class="form" id="newContact">
               <div id="sendmessage">Your message has been sent. Thank you!</div>
               <div id="errormessage"></div>
-              <form action="" method="post" role="form" class="contactForm">
+              <form action="" method="post" role="form" id="contactForm" class="contactForm">
                 <div class="form-row">
                   <div class="form-group col-lg-6">
                     <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
